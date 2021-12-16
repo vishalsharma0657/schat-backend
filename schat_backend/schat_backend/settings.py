@@ -37,6 +37,8 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'schat.apps.SchatConfig',
+    'phonenumber_field',
 ]
 
 MIDDLEWARE = [
@@ -73,11 +75,23 @@ WSGI_APPLICATION = 'schat_backend.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/3.2/ref/settings/#databases
 
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.sqlite3',
+#         'NAME': BASE_DIR / 'db.sqlite3',
+#     }
+# }
+
+
 DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
-    }
+        'default': {
+            'ENGINE': 'djongo',
+            'NAME': 'Baat_Chit',
+            'ENFORCE_SCHEMA': False,
+            'CLIENT': {
+                'host': 'mongodb+srv://niteshkumar:Nitesh123456@cluster0.k9rnc.mongodb.net/myFirstDatabase?retryWrites=true&w=majority'
+            }  
+        }
 }
 
 
