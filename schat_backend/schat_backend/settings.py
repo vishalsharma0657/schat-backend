@@ -39,6 +39,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'schat.apps.SchatConfig',
     'phonenumber_field',
+    'rest_framework',
 ]
 
 MIDDLEWARE = [
