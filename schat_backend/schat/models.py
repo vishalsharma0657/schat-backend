@@ -1,11 +1,11 @@
 from django.db import models
 from jsonfield import JSONField
-from phonenumber_field.modelfields import PhoneNumberField
 
 # Create your models here.
 class User(models.Model):
+    id = models.CharField(max_length=50 , primary_key=True)
     name = models.CharField(max_length=20)
-    phone_no = PhoneNumberField(null=False, blank=False, unique=True)
+    phone_no = models.CharField( max_length=12, default="")
 
     def __str__(self):
         return self.name
