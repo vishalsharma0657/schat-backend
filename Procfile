@@ -1,0 +1,1 @@
+ gunicorn schat_backend.wsgi --log-file -
