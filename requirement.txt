@@ -1,6 +1,6 @@
-pip install django-phonenumber-field
-pip install django-jsonfield
-pip install sqlparse==0.2.4
+install django-phonenumber-field
+install django-jsonfield
+install sqlparse==0.2.4
 asgiref==3.4.1
 Django==4.0
 django-rest-framework==0.1.0
