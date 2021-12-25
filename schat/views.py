@@ -1,5 +1,6 @@
 from django.shortcuts import render
 from django.http import HttpResponse, JsonResponse
+from django.utils.functional import keep_lazy_text
 from django.views.decorators.csrf import csrf_exempt
 from rest_framework.parsers import JSONParser
 from schat.models import User
@@ -37,13 +38,29 @@ def msg1(request , pk):
         return JsonResponse(serializer.data)
 
     elif request.method == 'PUT':
+        serializer = MsgSerializer(schat)
+        d=(dict(serializer.data))
         data = JSONParser().parse(request)
+        key=''
+        val=''
+        for k in data['msgs']:
+            key=k
+            val=data['msgs'][k]
+        name='b'
+        if key == ((d['id'])[:len(key)]):
+            name='a'
+
+        l=len(d['msgs'])+1
+        name=name+str(l)
+        data['msgs'].clear()
+        data['msgs']=d['msgs']
+        data['msgs'][name]=val   
+
         serializer = MsgSerializer(schat, data=data)
         if serializer.is_valid():
             serializer.save()
             return JsonResponse(serializer.data)
         return JsonResponse(serializer.errors, status=400)
-
     elif request.method == 'DELETE':
         schat.delete()
         return HttpResponse(status=204)
