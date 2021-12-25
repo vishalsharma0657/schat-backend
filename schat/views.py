@@ -130,6 +130,10 @@ def addFriend(request , pk):
             dz=(dict(serializer_z.data))
         except User.DoesNotExist:
             return JsonResponse('Please check username.') 
+        
+        for zx in d['friends']:
+            if((d['friends'])[zx] == data['add']):
+                return JsonResponse("both of you are already friends.",safe=False)
 
         l= str(len(d['friends'])+1)
         (d['friends'])[l]=data['add']
