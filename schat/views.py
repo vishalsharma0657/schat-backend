@@ -143,6 +143,20 @@ def addFriend(request , pk):
         serializer_z = UserSerializer(zchat, data=dz)
         if serializer_z.is_valid():
             serializer_z.save()
-
+    name1=pk
+    name2=data['add']
+    id=min(name1,name2)+'!!!'+max(name1,name2)
+    dy={
+        "id":id,
+        "user_1":min(name1,name2),
+        "user_2":max(name1,name2),
+        "msgs":{}
+    }
+    
+    srlz=MsgSerializer(data=dy)
+    if srlz.is_valid():
+        srlz.save()
     return JsonResponse("work done",safe=False)
 # return JsonResponse(serializer.errors, status=400)
+
+
