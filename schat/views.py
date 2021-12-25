@@ -104,3 +104,45 @@ def user1(request , pk):
     elif request.method == 'DELETE':
         schat.delete()
         return HttpResponse(status=204)
+
+
+# adding friends ---------------
+
+@csrf_exempt
+def addFriend(request , pk):
+    try:
+        schat = User.objects.get(pk=pk)
+    except User.DoesNotExist:
+        return HttpResponse(status=404)
+
+    if request.method == 'GET':
+        serializer = UserSerializer(schat)
+        return JsonResponse(serializer.data)
+
+    elif request.method == 'POST':
+        serializer = UserSerializer(schat)
+        d=(dict(serializer.data))
+        data = JSONParser().parse(request)
+        try:
+            z = User.objects.get(name=data['add'])
+            zchat = User.objects.get(name=data['add'])
+            serializer_z = UserSerializer(zchat)
+            dz=(dict(serializer_z.data))
+        except User.DoesNotExist:
+            return JsonResponse('Please check username.') 
+
+        l= str(len(d['friends'])+1)
+        (d['friends'])[l]=data['add']
+        lz= str (len(dz['friends'])+1)
+        (dz['friends'])[lz]=pk
+
+        serializer = UserSerializer(schat, data=d)
+        if serializer.is_valid():
+            serializer.save()
+
+        serializer_z = UserSerializer(zchat, data=dz)
+        if serializer_z.is_valid():
+            serializer_z.save()
+
+    return JsonResponse("work done",safe=False)
+# return JsonResponse(serializer.errors, status=400)
