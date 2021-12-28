@@ -1,3 +1,4 @@
+import re
 from django.shortcuts import render
 from django.http import HttpResponse, JsonResponse
 from django.utils.functional import keep_lazy_text
@@ -114,7 +115,7 @@ def addFriend(request , pk):
         schat = User.objects.get(pk=pk)
     except User.DoesNotExist:
         return HttpResponse(status=404)
-
+    res={'result':'Please check username.'}
     if request.method == 'GET':
         serializer = UserSerializer(schat)
         return JsonResponse(serializer.data)
@@ -129,11 +130,12 @@ def addFriend(request , pk):
             serializer_z = UserSerializer(zchat)
             dz=(dict(serializer_z.data))
         except User.DoesNotExist:
-            return JsonResponse('Please check username.') 
+            return JsonResponse(res) 
         
         for zx in d['friends']:
             if((d['friends'])[zx] == data['add']):
-                return JsonResponse("both of you are already friends.",safe=False)
+                res['result']="both of you are already friends"
+                return JsonResponse(res)
 
         l= str(len(d['friends'])+1)
         (d['friends'])[l]=data['add']
@@ -156,11 +158,11 @@ def addFriend(request , pk):
         "user_2":max(name1,name2),
         "msgs":{}
     }
-    
     srlz=MsgSerializer(data=dy)
     if srlz.is_valid():
         srlz.save()
-    return JsonResponse("work done",safe=False)
+    res['result']="work done"
+    return JsonResponse(res)
 
 
 # adding Users ---------------
