@@ -161,6 +161,37 @@ def addFriend(request , pk):
     if srlz.is_valid():
         srlz.save()
     return JsonResponse("work done",safe=False)
-# return JsonResponse(serializer.errors, status=400)
+
+
+# adding Users ---------------
+
+@csrf_exempt
+def addUser(request):
+    data = JSONParser().parse(request)
+    myName=data['name']
+    myPhone=data['phone_no']
+    res={'result':'username already taken'}   
+    try:
+        z = User.objects.get(name=myName)
+        return JsonResponse(res) 
+    except User.DoesNotExist:
+        try:
+            y = User.objects.get(phone_no=myPhone)
+            res['result']='phone number already used'
+            return JsonResponse(res) 
+        except:
+            dy={
+                "id":myName,
+                "name":myName,
+                "phone_no":myPhone,
+                "friends":{
+                    "1":myName
+                }
+            }
+            srlz=UserSerializer(data=dy)
+            if srlz.is_valid():
+                srlz.save()
+            res['result']='user successfully registered'
+        return JsonResponse(res)
 
 
