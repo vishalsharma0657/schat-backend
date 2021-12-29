@@ -42,22 +42,17 @@ def msg1(request , pk):
         serializer = MsgSerializer(schat)
         d=(dict(serializer.data))
         data = JSONParser().parse(request)
-        key=''
-        val=''
-        for k in data['msgs']:
-            key=k
-            val=data['msgs'][k]
+        key=data['sender']
+        val=data['msg']
         name='b'
         if key == ((d['id'])[:len(key)]):
             name='a'
 
         l=len(d['msgs'])+1
         name=name+str(l)
-        data['msgs'].clear()
-        data['msgs']=d['msgs']
-        data['msgs'][name]=val   
+        d['msgs'][name]=val
 
-        serializer = MsgSerializer(schat, data=data)
+        serializer = MsgSerializer(schat, data=d)
         if serializer.is_valid():
             serializer.save()
             return JsonResponse(serializer.data)
