@@ -8,9 +8,9 @@ from schat.models import User
 from schat.models import Msg
 from schat.serializers import UserSerializer
 from schat.serializers import MsgSerializer
-
+from cryptography.fernet import Fernet
 # Create your views here.
-
+KEY=b'FQQeAHh-Rg8Q7KQHwFk5EhnPFQud1uHZALX9spvPjps='
 
 @csrf_exempt
 def msg(request):
@@ -36,28 +36,32 @@ def msg1(request , pk):
 
     if request.method == 'GET':
         serializer = MsgSerializer(schat)
+        fernet = Fernet(KEY)
+        d=(dict(serializer.data))
+        for k in d['msgs']:
+            enc=(d['msgs'][k]).encode()
+            decMessage = (fernet.decrypt(enc)).decode()
+            d['msgs'][k]=decMessage
         return JsonResponse(serializer.data)
 
     elif request.method == 'PUT':
         serializer = MsgSerializer(schat)
         d=(dict(serializer.data))
         data = JSONParser().parse(request)
-        key=''
-        val=''
-        for k in data['msgs']:
-            key=k
-            val=data['msgs'][k]
+        key=data['sender']
+        val=data['msg']
+        fernet = Fernet(KEY)
+        encMessage = fernet.encrypt(val.encode())
+        encMessage=encMessage.decode()
         name='b'
         if key == ((d['id'])[:len(key)]):
             name='a'
 
         l=len(d['msgs'])+1
         name=name+str(l)
-        data['msgs'].clear()
-        data['msgs']=d['msgs']
-        data['msgs'][name]=val   
+        d['msgs'][name]=encMessage
 
-        serializer = MsgSerializer(schat, data=data)
+        serializer = MsgSerializer(schat, data=d)
         if serializer.is_valid():
             serializer.save()
             return JsonResponse(serializer.data)
