@@ -9,6 +9,8 @@ class UserSerializer(serializers.Serializer):
     id = serializers.CharField(max_length=50)
     name = serializers.CharField(max_length=20)
     phone_no = serializers.CharField( max_length=12 , default="")
+    friends = serializers.JSONField()
+
 
     def create(self, validated_data):
         return User.objects.create(**validated_data)
