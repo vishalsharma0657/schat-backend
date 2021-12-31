@@ -92,7 +92,8 @@ def user1(request , pk):
     try:
         schat = User.objects.get(pk=pk)
     except User.DoesNotExist:
-        return HttpResponse(status=404)
+        res={'result':'username not found'}  
+        return JsonResponse(res)
 
     if request.method == 'GET':
         serializer = UserSerializer(schat)
