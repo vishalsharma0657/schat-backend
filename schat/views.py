@@ -201,3 +201,34 @@ def addUser(request):
         return JsonResponse(res)
 
 
+
+
+# for authentication
+@csrf_exempt
+def auth(request ):
+    data = JSONParser().parse(request)
+    name=data['name']
+    phoneNo=data['phone_no']
+    res={'result':'user already exists'}
+    try:
+        schat = User.objects.get(pk=name)
+        serializer = UserSerializer(schat)
+        d=(dict(serializer.data))
+        if d['phone_no']==phoneNo:
+            res['result']='old bakra'
+            return JsonResponse(res)
+        else:
+            res['result']='username and phone number donot match'
+            return JsonResponse(res)
+    except User.DoesNotExist:
+        try:
+            schat = User.objects.get(phone_no=phoneNo)
+            res['result']='please check your username'
+            return JsonResponse(res)
+
+        except User.DoesNotExist:
+            res['result']='new bakra'
+            return JsonResponse(res)
+
+
+    
