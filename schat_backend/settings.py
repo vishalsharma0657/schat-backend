@@ -27,7 +27,7 @@ SECRET_KEY = 'django-insecure-3sb3yzam=yqq4ernnj8c55^w!(eff$*$ctx0f!sfymz$ha0@r@
 DEBUG = True
 
 ALLOWED_HOSTS = [
-#     'schat-backend.azurewebsites.net',
+    'https://schat-backend.herokuapp.com',
 
 ]
 
