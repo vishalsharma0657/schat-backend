@@ -94,7 +94,7 @@ DATABASES = {
             'NAME': 'Baat_Chit',
             'ENFORCE_SCHEMA': False,
             'CLIENT': {
-                'host': 'mongodb+srv://niteshkumar:Nitesh123456@cluster0.k9rnc.mongodb.net/myFirstDatabase?retryWrites=true&w=majority'
+                'host': 'mongodb+srv://vishal:vishal123@cluster0.txhlucc.mongodb.net/test'
             }  
         }
 }
