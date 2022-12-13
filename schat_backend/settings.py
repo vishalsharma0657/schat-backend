@@ -29,6 +29,7 @@ DEBUG = True
 ALLOWED_HOSTS = [
     '0.0.0.0',
     'schat-backend.herokuapp.com', 
+    'web-production-4167.up.railway.app'
     '127.0.0.1'
 ]
 
